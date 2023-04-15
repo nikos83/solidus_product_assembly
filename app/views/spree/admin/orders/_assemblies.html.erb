@@ -4,7 +4,6 @@
       <%= t('spree.product_bundles') %>
     </legend>
   </fieldset>
-
   <table class="product-bundles index" data-hook="line-items">
     <colgroup>
       <col style="width: 15%;" />
@@ -13,7 +12,6 @@
       <col style="width: 15%;" />
       <col style="width: 15%;" />
     </colgroup>
-
     <thead>
       <tr>
         <th colspan="2"><%= Spree::Product.human_attribute_name(:name) %></th>
@@ -22,15 +20,16 @@
         <th><%= Spree::LineItem.human_attribute_name(:total) %></th>
       </tr>
     </thead>
-
     <tbody>
       <% order.line_items.assemblies.each do |item| %>
         <%= content_tag :tr, class: 'line-item', id: "line-item-#{item.id}", data: { line_item_id: item.id } do %>
-          <td class="line-item-image"><%= render 'spree/shared/image',
+          <td class="line-item-image"><%= render(ImageComponent.new(
                       image: (item.variant.gallery.images.first || item.variant.product.gallery.images.first),
-                      size: :mini %></td>
+                      size: :mini ))
+                      %></td>
           <td class="line-item-name">
-            <%= item.variant.product.name %><br><%= "(" + variant_options(item.variant) + ")" unless item.variant.option_values.empty? %>
+            <%= item.variant.product.name %><br>
+            <%= "(" + variant_options(item.variant) + ")" unless item.variant.option_values.empty? %>
             <% if item.variant.sku.present? %>
               <strong><%= Spree::Variant.human_attribute_name(:sku) %>:</strong> <%= item.variant.sku %>
             <% end %>
